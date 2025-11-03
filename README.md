@@ -56,6 +56,7 @@ CÁCH ĐÁNH GIÁ:
  - cài đặt các docker container mariadb (3306), phpmyadmin (8080), nodered/node-red (1880), influxdb (8086), grafana/grafana (3000), nginx (80,443):
 <img width="940" height="903" alt="image" src="https://github.com/user-attachments/assets/07f5d982-369c-4aa2-87f9-ca62d262f7e4" />
 4. Lập trình web frontend+backend:
+# fontend
 - Tạo cơ sở dữ liệu trong phpMyAdmin:
 <img width="940" height="852" alt="image" src="https://github.com/user-attachments/assets/d2bee6c7-47ff-4cbe-848e-dedd9905bc79" />
 <img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/2f69548b-3562-45f5-8133-9a227b7d7e47" />
