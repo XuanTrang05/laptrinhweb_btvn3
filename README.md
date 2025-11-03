@@ -91,7 +91,9 @@ CÁCH ĐÁNH GIÁ:
 - Cấu hình nginx để http://fullname.com/nodered truy cập vào nodered qua cổng 80
 <img width="963" height="1079" alt="image" src="https://github.com/user-attachments/assets/ca356468-d064-427a-8f08-077fa5706c94" />
 - Cấu hình nginx để http://fullname.com/grafana truy cập vào grafana qua cổng 80
-<img width="971" height="1079" alt="image" src="https://github.com/user-attachments/assets/69b9ff9b-c277-41df-a1b4-42cca10f07b9" />
+<img width="902" height="880" alt="image" src="https://github.com/user-attachments/assets/d6f4eefc-c86d-438b-af15-3ac92350f1b4" />
+
+
 
 
 
