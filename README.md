@@ -84,8 +84,16 @@ CÁCH ĐÁNH GIÁ:
 -
 -
 5. Nginx làm web-server
+- Cấu hình nginx để chạy được qua url http://fullname.com
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ea6e3cd6-1d49-496d-b2f8-75e677baae31" />
 - Cấu hình nginx để chạy được website qua url http://fullname.com
-<img width="940" height="1056" alt="image" src="https://github.com/user-attachments/assets/f777ffb4-254e-44ed-a8dd-b5f38aa0811a" />
+<img width="964" height="1079" alt="image" src="https://github.com/user-attachments/assets/405f866d-a961-47d3-bd91-181951b4dbae" />
+- Cấu hình nginx để http://fullname.com/nodered truy cập vào nodered qua cổng 80
+<img width="963" height="1079" alt="image" src="https://github.com/user-attachments/assets/ca356468-d064-427a-8f08-077fa5706c94" />
+- Cấu hình nginx để http://fullname.com/grafana truy cập vào grafana qua cổng 80
+<img width="971" height="1079" alt="image" src="https://github.com/user-attachments/assets/69b9ff9b-c277-41df-a1b4-42cca10f07b9" />
+
+
 
 
 
