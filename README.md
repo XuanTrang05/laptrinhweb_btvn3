@@ -62,9 +62,20 @@ Kết quả:
 Cấu hình user
 <img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/44512e56-7f8b-44b0-bd54-2adbb1e2fb04" />
 <img width="940" height="156" alt="image" src="https://github.com/user-attachments/assets/3f801c36-b8ea-4eda-a07c-780857aa1e5f" />
-Kết quả:
+Cấu hình sessions
+<img width="1898" height="1078" alt="image" src="https://github.com/user-attachments/assets/4a11a3a7-c09b-47d2-bbad-19afc6843ff1" />
+<img width="1142" height="275" alt="image" src="https://github.com/user-attachments/assets/cbdaa50d-3cdb-4338-af00-91ea4362c1e3" />
+- Kết Quả:
+<img width="934" height="170" alt="image" src="https://github.com/user-attachments/assets/ba616c0f-7aa6-4e38-8e99-30a8f539d240" />
+5 Nginx làm web-server
+ - Cấu hình nginx để chạy được website qua url http://fullname.com  (thay fullname bằng chuỗi ko dấu viết liền tên của bạn)
+ - Cấu hình nginx để http://fullname.com/nodered truy cập vào nodered qua cổng 80, (dù nodered đang chạy ở port 1880)
+ - Cấu hình nginx để http://fullname.com/grafana truy cập vào grafana qua cổng 80, (dù grafana đang chạy ở port 3000)
+
+
 <img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/cad3b153-70b5-4873-962c-c90a09d0d91a" />
 <img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/fecfb984-cf34-4c6a-8c0a-5577912a60c7" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/672adc60-71c2-43be-aac8-1c1abf7a19b0" />
 
 
 
