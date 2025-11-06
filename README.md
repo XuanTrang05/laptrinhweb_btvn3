@@ -77,10 +77,10 @@ Cấu hình sessions
 <img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/fecfb984-cf34-4c6a-8c0a-5577912a60c7" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/672adc60-71c2-43be-aac8-1c1abf7a19b0" />
 ## Kết Luận
-Trong quá trình thực hiện bài tập, em đã nắm vững quy trình **cài đặt hệ điều hành Ubuntu trên máy ảo VMware** và triển khai thành công các dịch vụ **MariaDB, phpMyAdmin, Node-RED, InfluxDB, Grafana và Nginx** thông qua **Docker Compose**.
-Hệ thống web được xây dựng theo mô hình **Single Page Application (SPA)** cho phép người dùng **đăng nhập, theo dõi dữ liệu cảm biến theo thời gian thực**, đồng thời **xem biểu đồ lịch sử** được hiển thị trực quan qua **Grafana**. **Node-RED** đảm nhận vai trò **xử lý và lưu trữ dữ liệu cảm biến**, trong khi **Nginx** được cấu hình làm **máy chủ web trung tâm**, giúp hợp nhất việc truy cập các dịch vụ thông qua tên miền tùy chỉnh.
+Trong quá trình thực hiện bài tập, em đã nắm vững quy trình cài đặt hệ điều hành Ubuntu trên máy ảo VMware và triển khai thành công các dịch vụ MariaDB, phpMyAdmin, Node-RED, InfluxDB, Grafana và Nginx thông qua Docker Compose.
+Hệ thống web được xây dựng theo mô hình Single Page Application (SPA) cho phép người dùng đăng nhập, theo dõi dữ liệu cảm biến theo thời gian thực, đồng thời xem biểu đồ lịch sử được hiển thị trực quan qua Grafana. Node-RED đảm nhận vai trò xử lý và lưu trữ dữ liệu cảm biến, trong khi Nginx được cấu hình làm máy chủ web trung tâm, giúp hợp nhất việc truy cập các dịch vụ thông qua tên miền tùy chỉnh.
 
-Bài làm đã giúp em **hiểu rõ quy trình tích hợp và vận hành một hệ thống IoT hoàn chỉnh**, từ khâu thu thập, lưu trữ đến trực quan hóa dữ liệu. Đồng thời, em cũng **rèn luyện được kỹ năng triển khai thực tế với Docker, Nginx và các công cụ giám sát**, góp phần củng cố tư duy hệ thống và khả năng ứng dụng công nghệ vào các dự án web – IoT trong tương lai.
+Bài làm đã giúp em hiểu rõ quy trình tích hợp và vận hành một hệ thống IoT hoàn chỉnh, từ khâu thu thập, lưu trữ đến trực quan hóa dữ liệu. Đồng thời, em cũng rèn luyện được kỹ năng triển khai thực tế với Docker, Nginx và các công cụ giám sát, góp phần củng cố tư duy hệ thống và khả năng ứng dụng công nghệ vào các dự án web – IoT trong tương lai.
 
 
 
