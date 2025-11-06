@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: web_hehe
+      MYSQL_USER: iotuser
+      MYSQL_PASSWORD: iotpass
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - webiot_net
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: root
+      PMA_PASSWORD: 123456
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
+    networks:
+      - webiot_net
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered
+    restart: always
+    ports:
+      - "1880:1880"
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    volumes:
+      - nodered_data:/data
+    depends_on:
+      - mariadb
+      - influxdb
+    networks:
+      - webiot_net
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: always
+    environment:
+      - INFLUXDB_DB=iotdata
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=123456
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+    networks:
+      - webiot_net
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=123456
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - influxdb
+    networks:
+      - webiot_net
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - /home/trang/web_iot/frontend:/usr/share/nginx/html
+    depends_on:
+      - nodered
+      - grafana
+    networks:
+      - webiot_net
+  web:
+    image: nginx:latest
+    container_name: web
+    restart: always
+    volumes:
+      - /home/trang/web_iot/nginx/html:/usr/share/nginx/html
+    ports:
+      - "8088:80"
+    networks:
+      - webiot_net
+volumes:
+  mariadb_data:
+  nodered_data:
+  influxdb_data:
+  grafana_data:
+networks:
+  webiot_net:
+    driver: bridge

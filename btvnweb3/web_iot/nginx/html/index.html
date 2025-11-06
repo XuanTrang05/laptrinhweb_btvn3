@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Web IoT - Giám sát dữ liệu cảm biến</title>
+    <style>
+      :root {
+        --brand: #0078d7;
+        --muted: #777;
+        --card: #fff;
+        --bg: #f3f5f7;
+      }
+      body {
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        margin: 0;
+        background: var(--bg);
+        color: #111;
+      }
+      header {
+        padding: 22px 16px;
+        text-align: center;
+      }
+      h1 {
+        margin: 6px 0 0;
+        font-size: 22px;
+      }
+      .toplinks {
+        margin-top: 8px;
+      }
+      .toplinks a {
+        display: inline-block;
+        margin: 6px 6px;
+        padding: 8px 12px;
+        background: #fff;
+        border-radius: 8px;
+        color: #222;
+        text-decoration: none;
+        border: 1px solid #eee;
+      }
+      main {
+        max-width: 980px;
+        margin: 18px auto;
+        padding: 0 16px;
+      }
+      .card {
+        background: var(--card);
+        border-radius: 10px;
+        box-shadow: 0 6px 18px rgba(20, 20, 40, 0.04);
+        padding: 22px;
+      }
+      .login-grid {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+      }
+      input[type="text"],
+      input[type="password"] {
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        width: 260px;
+      }
+      button {
+        background: var(--brand);
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 0;
+        cursor: pointer;
+      }
+      button.ghost {
+        background: #eee;
+        color: #333;
+      }
+      .err {
+        color: #b00020;
+        margin-top: 12px;
+      }
+      .sensors {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+      .sensor {
+        flex: 0 0 220px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid #eee;
+        cursor: pointer;
+      }
+      .sensor h4 {
+        margin: 0 0 8px;
+        font-size: 15px;
+      }
+      .sensor .val {
+        font-weight: 700;
+        font-size: 18px;
+      }
+      #grafanaWrap {
+        margin-top: 18px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #eee;
+        display: none;
+      }
+      #grafanaFrame {
+        width: 100%;
+        height: 520px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+      }
+      footer {
+        max-width: 980px;
+        margin: 18px auto;
+        text-align: center;
+        color: var(--muted);
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>🌡️ Web IoT - Giám sát dữ liệu cảm biến</h1>
+      <div class="toplinks">
+        <a href="/phpmyadmin" target="_blank">phpMyAdmin</a>
+        <a href="/api" target="_blank">Node-RED</a>
+        <a href="/grafana" target="_blank">Grafana</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="card" id="loginCard" aria-live="polite">
+        <h2 style="text-align: center">Đăng nhập</h2>
+        <div style="text-align: center; margin-top: 8px" class="login-grid">
+          <input
+            id="username"
+            type="text"
+            placeholder="Tài khoản"
+            autocomplete="username"
+          />
+          <input
+            id="password"
+            type="password"
+            placeholder="Mật khẩu"
+            autocomplete="current-password"
+          />
+        </div>
+        <div style="text-align: center; margin-top: 14px">
+          <button id="btnLogin">Đăng nhập</button>
+          <button id="btnDemo" class="ghost">Tự động (demo)</button>
+        </div>
+        <p id="loginMsg" class="err" style="display: none"></p>
+        <p class="small" style="text-align: center; margin-top: 8px">
+          Lưu phiên bằng cookie → chỉ đăng xuất khi bạn bấm Đăng xuất.
+        </p>
+      </div>
+
+      <div
+        class="card"
+        id="dashboardCard"
+        style="display: none; margin-top: 16px"
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+          "
+        >
+          <div>
+            <h3 style="margin: 0">Dashboard</h3>
+            <div class="small">
+              Xin chào <span id="displayUser" style="font-weight: 600"></span>
+            </div>
+          </div>
+          <div>
+            <button id="btnRefresh" class="ghost">Làm mới</button>
+            <button id="btnLogout">Đăng xuất</button>
+          </div>
+        </div>
+
+        <div class="small" style="margin-top: 12px">
+          Các cảm biến (giá trị mới nhất)
+        </div>
+        <div id="sensors" class="sensors"></div>
+
+        <div id="grafanaWrap">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <strong>Biểu đồ lịch sử</strong>
+            <button id="closeGraf" class="ghost">Đóng</button>
+          </div>
+          <iframe
+            id="grafanaFrame"
+            src=""
+            frameborder="0"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="small">
+        Ứng dụng demo — Backend: Node-RED, MariaDB, InfluxDB, Grafana (qua Nginx
+        proxy).
+      </div>
+    </footer>
+
+    <script>
+      /* ====== Helpers: SHA-256 (Web Crypto) ====== */
+      async function sha256hex(text) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(text);
+        const hashBuf = await crypto.subtle.digest("SHA-256", data);
+        const hashArray = Array.from(new Uint8Array(hashBuf));
+        return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      /* ====== App state & elements ====== */
+      const apiBase = "/api"; // requests go to /api/* (Nginx proxy to Node-RED)
+      const usernameEl = document.getElementById("username");
+      const passwordEl = document.getElementById("password");
+      const btnLogin = document.getElementById("btnLogin");
+      const btnDemo = document.getElementById("btnDemo");
+      const loginMsg = document.getElementById("loginMsg");
+      const loginCard = document.getElementById("loginCard");
+      const dashboardCard = document.getElementById("dashboardCard");
+      const displayUser = document.getElementById("displayUser");
+      const sensorsDiv = document.getElementById("sensors");
+      const grafanaWrap = document.getElementById("grafanaWrap");
+      const grafanaFrame = document.getElementById("grafanaFrame");
+      const btnLogout = document.getElementById("btnLogout");
+      const btnRefresh = document.getElementById("btnRefresh");
+      const closeGraf = document.getElementById("closeGraf");
+
+      /* ====== Session helpers ====== */
+      function setCookie(name, value, days = 1) {
+        const d = new Date();
+        d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie =
+          name +
+          "=" +
+          encodeURIComponent(value) +
+          ";path=/;SameSite=Lax;expires=" +
+          d.toUTCString();
+      }
+      function getCookie(name) {
+        const v = document.cookie.match(
+          "(^|;)\\s*" + name + "\\s*=\\s*([^;]+)"
+        );
+        return v ? decodeURIComponent(v.pop()) : "";
+      }
+      function clearCookie(name) {
+        document.cookie = name + "=; Max-Age=0; path=/";
+      }
+
+      /* ====== UI flows ====== */
+      async function doLogin(user, passPlain) {
+        loginMsg.style.display = "none";
+        btnLogin.disabled = true;
+        btnLogin.textContent = "Đang...";
+        try {
+          // client-side hash SHA-256 according to spec (send hashed password, not plain)
+          const client_hash = await sha256hex(passPlain);
+          const res = await fetch(apiBase + "/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify({ username: user, client_hash }),
+          });
+          const j = await res
+            .json()
+            .catch(() => ({ success: false, message: "Invalid response" }));
+
+          if (res.ok && j.success) {
+            // if server provided session token in body, set cookie; else we assume Set-Cookie header did it.
+            if (j.session) setCookie("session", j.session, 7);
+            localStorage.setItem("iot_user", user);
+            showDashboard();
+          } else {
+            loginMsg.style.display = "block";
+            loginMsg.textContent =
+              j.message || "Sai tài khoản/mật khẩu hoặc lỗi server";
+          }
+        } catch (e) {
+          loginMsg.style.display = "block";
+          loginMsg.textContent = "Lỗi kết nối tới server";
+          console.error(e);
+        } finally {
+          btnLogin.disabled = false;
+          btnLogin.textContent = "Đăng nhập";
+        }
+      }
+
+      function showLogin() {
+        dashboardCard.style.display = "none";
+        loginCard.style.display = "block";
+      }
+
+      async function fetchLatest() {
+        sensorsDiv.innerHTML = '<div class="small">Đang tải...</div>';
+        try {
+          const res = await fetch(apiBase + "/latest", {
+            credentials: "same-origin",
+          });
+          if (!res.ok) throw new Error("fetch fail");
+          const j = await res.json();
+          renderSensors(j.sensors || []);
+        } catch (e) {
+          sensorsDiv.innerHTML =
+            '<div class="small">Không lấy được dữ liệu. Kiểm tra Node-RED và MariaDB.</div>';
+          console.error(e);
+        }
+      }
+
+      function renderSensors(list) {
+        if (!Array.isArray(list) || list.length === 0) {
+          sensorsDiv.innerHTML =
+            '<div class="small">Chưa có dữ liệu cảm biến.</div>';
+          return;
+        }
+        sensorsDiv.innerHTML = "";
+        list.forEach((s) => {
+          const el = document.createElement("div");
+          el.className = "sensor";
+          el.innerHTML = `<h4>${escapeHtml(
+            s.name
+          )} <span style="font-size:12px;color:#999">(${escapeHtml(
+            s.sensor_id
+          )})</span></h4>
+                    <div class="val">${s.value}</div>
+                    <div class="small" style="margin-top:8px;color:var(--muted)">${new Date(
+                      s.ts
+                    ).toLocaleString()}</div>`;
+          el.onclick = () => openGrafanaForSensor(s.sensor_id);
+          sensorsDiv.appendChild(el);
+        });
+      }
+
+      function openGrafanaForSensor(sensor_id) {
+        // build grafana URL — template: /grafana/d/<dashboard>?var-sensor_id=<sensor_id>
+        // You should replace <DASHBOARD_UID> with your grafana dashboard UID or use a generic panel url.
+        // Here we try to open grafana root and let user click, but we can also open a dashboard if available.
+        const uid = "your_dashboard_uid_here"; // <-- nếu có dashboard UID thay vào đây
+        const url =
+          uid === "your_dashboard_uid_here"
+            ? "/grafana"
+            : `/grafana/d/${uid}?var-sensor_id=${encodeURIComponent(
+                sensor_id
+              )}`;
+        grafanaFrame.src = url;
+        grafanaWrap.style.display = "block";
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+
+      /* ====== Flow control ====== */
+      async function showDashboard() {
+        loginCard.style.display = "none";
+        dashboardCard.style.display = "block";
+        const user =
+          localStorage.getItem("iot_user") || getCookie("user") || "user";
+        displayUser.textContent = user;
+        await fetchLatest();
+      }
+
+      /* ====== Utils ====== */
+      function escapeHtml(s) {
+        return String(s || "").replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            }[c])
+        );
+      }
+
+      /* ====== Event bindings ====== */
+      btnLogin.addEventListener("click", () => {
+        const u = usernameEl.value.trim(),
+          p = passwordEl.value;
+        if (!u || !p) {
+          loginMsg.style.display = "block";
+          loginMsg.textContent = "Nhập tài khoản & mật khẩu";
+          return;
+        }
+        doLogin(u, p);
+      });
+      btnDemo.addEventListener("click", () => {
+        usernameEl.value = "student";
+        passwordEl.value = "123456";
+        btnLogin.click();
+      });
+      btnLogout.addEventListener("click", () => {
+        clearCookie("session");
+        localStorage.removeItem("iot_user");
+        showLogin();
+      });
+      btnRefresh.addEventListener("click", fetchLatest);
+      closeGraf.addEventListener("click", () => {
+        grafanaFrame.src = "";
+        grafanaWrap.style.display = "none";
+      });
+
+      /* ====== On load - if we already have session, show dashboard ====== */
+      (async function init() {
+        // if server sets cookie 'session' via Set-Cookie, it will be available and we can test /api/whoami
+        const session = getCookie("session");
+        const cachedUser = localStorage.getItem("iot_user");
+        if (session || cachedUser) {
+          // try to validate session quickly
+          try {
+            const res = await fetch(apiBase + "/whoami", {
+              credentials: "same-origin",
+            });
+            if (res.ok) {
+              const j = await res.json().catch(() => ({ user: cachedUser }));
+              if (j && j.user) {
+                localStorage.setItem("iot_user", j.user);
+                showDashboard();
+                return;
+              }
+            }
+          } catch (e) {
+            // ignore and fallback to cached user
+            if (cachedUser) {
+              showDashboard();
+              return;
+            }
+          }
+        }
+        showLogin();
+      })();
+    </script>
+  </body>
+</html>
