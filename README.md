@@ -44,61 +44,27 @@ CÁCH ĐÁNH GIÁ:
 5. front-end có js gọi được api nodered, nhận về json, hiển thị được kết quả từ json này. 2đ
 6. Bài làm có dấu ấn, giải thích rõ ràng, hiểu vấn đề: 2đ
 ## BÀI LÀM
-1. Cài đặt môi trường linux sử dụng VMware : cài đặt ubuntu
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/3d2933e1-764b-4c5b-adf3-de32da0afe4e" />
-2.  Cài đặt Docker
-<img width="940" height="527" alt="image" src="https://github.com/user-attachments/assets/a5d24db9-bb21-417d-b37f-47b0eac424a1" />
-- Kiểm tra docker có hoạt động hay không:
-<img width="940" height="651" alt="image" src="https://github.com/user-attachments/assets/663e189a-f3ad-48f3-ad11-e8cfeeded5ce" />
-3. Sử dụng 1 file docker-compose.yml để cài đặt các docker container sau:
-- Tạo file ocker-compose.yml:
- <img width="940" height="669" alt="image" src="https://github.com/user-attachments/assets/f99662d9-e9e3-4320-9443-79a3b3a8570f" />
- - cài đặt các docker container mariadb (3306), phpmyadmin (8080), nodered/node-red (1880), influxdb (8086), grafana/grafana (3000), nginx (80,443):
-<img width="940" height="903" alt="image" src="https://github.com/user-attachments/assets/07f5d982-369c-4aa2-87f9-ca62d262f7e4" />
-4. Lập trình web frontend+backend:
-# fontend
-- Tạo cơ sở dữ liệu trong phpMyAdmin:
-<img width="940" height="852" alt="image" src="https://github.com/user-attachments/assets/d2bee6c7-47ff-4cbe-848e-dedd9905bc79" />
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/2f69548b-3562-45f5-8133-9a227b7d7e47" />
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/b4d2985e-53fb-4a25-afc0-b33253a231fe" />
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/9e3c1a88-57be-4bc9-a26a-f23987404adb" />
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/c9166c5e-4da8-4dba-b2e8-6933690c00c1" />
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/23dd26e4-619b-4ae3-949e-f77c5d0d7af9" />
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/36c0f220-c225-41ca-9854-7b11dc89f5d1" />
-- Nodered:
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/8bbd57ca-927c-4591-becb-f497d853fa56" />
-- truy cập http://localhost:1880/get-users :
-<img width="940" height="716" alt="image" src="https://github.com/user-attachments/assets/c88f591f-05bd-4b28-81df-7af25ce74a50" />
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/4482f5f9-f899-4876-9a64-62751fcd2835" />
--
--
--
--
--
--
--
--
--
--
--
--
--
--
-5. Nginx làm web-server
-- Cấu hình nginx để chạy được qua url http://fullname.com
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ea6e3cd6-1d49-496d-b2f8-75e677baae31" />
-- Cấu hình nginx để chạy được website qua url http://fullname.com
-<img width="964" height="1079" alt="image" src="https://github.com/user-attachments/assets/405f866d-a961-47d3-bd91-181951b4dbae" />
-- Cấu hình nginx để http://fullname.com/nodered truy cập vào nodered qua cổng 80
-<img width="963" height="1079" alt="image" src="https://github.com/user-attachments/assets/ca356468-d064-427a-8f08-077fa5706c94" />
-- Cấu hình nginx để http://fullname.com/grafana truy cập vào grafana qua cổng 80
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/c00be1c0-1af1-49e1-b014-c452e7e8346e" />
-
-
-
-
-
-
+1. enable wsl: cài đặt ubuntu
+<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/3941fb37-16d9-45a7-8cb5-113e7e41e68c" />
+bật WSL và cài Ubuntu thành công
+<img width="940" height="483" alt="image" src="https://github.com/user-attachments/assets/a24e5e8b-aebb-44e7-a169-ae354df6ad11" />
+Kiểm tra docker có hoạt động hay không
+<img width="940" height="653" alt="image" src="https://github.com/user-attachments/assets/5a3546f7-1793-4f94-af02-0f9ebe6e6208" />
+Sử dụng 1 file docker-compose.yml để cài đặt các docker container sau: 
+   mariadb (3306), phpmyadmin (8080), nodered/node-red (1880), influxdb (8086),
+<img width="940" height="486" alt="image" src="https://github.com/user-attachments/assets/028f33df-3dc7-4e35-91e4-afd824024d59" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8f85536f-95cf-4da1-a3da-1b0a596b9d87" />
+Cấu hình latest_values
+<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/1139a915-06d3-4015-90ca-534a947569aa" />
+<img width="940" height="126" alt="image" src="https://github.com/user-attachments/assets/e10323c9-374b-4af8-b588-e5cfdceced89" />
+Kết quả:
+<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/bd40d964-1d66-4578-b024-54996cd695b0" />
+Cấu hình user
+<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/44512e56-7f8b-44b0-bd54-2adbb1e2fb04" />
+<img width="940" height="156" alt="image" src="https://github.com/user-attachments/assets/3f801c36-b8ea-4eda-a07c-780857aa1e5f" />
+Kết quả:
+<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/cad3b153-70b5-4873-962c-c90a09d0d91a" />
+<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/fecfb984-cf34-4c6a-8c0a-5577912a60c7" />
 
 
 
